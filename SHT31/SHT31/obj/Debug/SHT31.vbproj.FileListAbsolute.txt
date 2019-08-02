@@ -1,0 +1,16 @@
+C:\Users\jasper.DR-STORAGE\Desktop\SHT31\SHT31\bin\Debug\SHT31.exe.config
+C:\Users\jasper.DR-STORAGE\Desktop\SHT31\SHT31\bin\Debug\SHT31.exe
+C:\Users\jasper.DR-STORAGE\Desktop\SHT31\SHT31\bin\Debug\SHT31.pdb
+C:\Users\jasper.DR-STORAGE\Desktop\SHT31\SHT31\bin\Debug\SHT31.xml
+C:\Users\jasper.DR-STORAGE\Desktop\SHT31\SHT31\obj\Debug\SHT31.vbprojAssemblyReference.cache
+C:\Users\jasper.DR-STORAGE\Desktop\SHT31\SHT31\obj\Debug\SHT31.Form1.resources
+C:\Users\jasper.DR-STORAGE\Desktop\SHT31\SHT31\obj\Debug\SHT31.Resources.resources
+C:\Users\jasper.DR-STORAGE\Desktop\SHT31\SHT31\obj\Debug\SHT31.vbproj.GenerateResource.cache
+C:\Users\jasper.DR-STORAGE\Desktop\SHT31\SHT31\obj\Debug\SHT31.vbproj.CoreCompileInputs.cache
+C:\Users\jasper.DR-STORAGE\Desktop\SHT31\SHT31\obj\Debug\SHT31.exe
+C:\Users\jasper.DR-STORAGE\Desktop\SHT31\SHT31\obj\Debug\SHT31.xml
+C:\Users\jasper.DR-STORAGE\Desktop\SHT31\SHT31\obj\Debug\SHT31.pdb
+C:\Users\jasper.DR-STORAGE\Desktop\SHT31\SHT31\bin\Debug\SHT31.exe.manifest
+C:\Users\jasper.DR-STORAGE\Desktop\SHT31\SHT31\bin\Debug\SHT31.application
+C:\Users\jasper.DR-STORAGE\Desktop\SHT31\SHT31\obj\Debug\SHT31.exe.manifest
+C:\Users\jasper.DR-STORAGE\Desktop\SHT31\SHT31\obj\Debug\SHT31.application
