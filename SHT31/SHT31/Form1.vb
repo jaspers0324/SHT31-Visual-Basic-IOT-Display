@@ -4,6 +4,8 @@ Public Class Form1
 
     Dim comPORT As String     '定義COMPORT宣告
     Dim receivedData As String = ""     '定義字串接收
+    Dim myMail As New MailMessage() '定義mail發送
+
 
     'Serial物件
     Private Sub Form1_Load(sender As Object, e As EventArgs) Handles MyBase.Load
@@ -51,6 +53,7 @@ Public Class Form1
                 Timer7.Enabled = True
                 Timer8.Enabled = True
                 Timer9.Enabled = True
+                Timer10.Enabled = True
 
                 '通訊開啟標籤顯示
                 Label2.Text = "Timer: ON"
@@ -79,6 +82,7 @@ Public Class Form1
             Timer7.Enabled = False
             Timer8.Enabled = False
             Timer9.Enabled = False
+            Timer10.Enabled = False
 
             '標籤顯示關閉
             Label2.Text = "Timer: OFF"
@@ -98,9 +102,10 @@ Public Class Form1
     '接收Serial 資料
     Private Sub Timer1_Tick(sender As Object, e As EventArgs) Handles Timer1.Tick
 
-        Threading.Thread.Sleep(1000)
+        'Threading.Thread.Sleep(3000)
+        Timer1.Interval = 3000
         receivedData = ReceiveSerialData()
-        TextBox1.Text = Label9.Text & "," & receivedData
+        'TextBox1.Text = Label9.Text & "," & receivedData
 
     End Sub
 
@@ -148,6 +153,7 @@ Public Class Form1
 
     '儲存接收到的資料
     Private Sub Timer3_Tick(sender As Object, e As EventArgs) Handles Timer3.Tick
+
         Try
             Dim file As System.IO.StreamWriter
             file = My.Computer.FileSystem.OpenTextFileWriter(TextBox2.Text, True)
@@ -155,15 +161,7 @@ Public Class Form1
             file.Close()
         Catch ex As Exception
         End Try
-    End Sub
 
-    '按鈕選取儲存路徑
-    Private Sub Button2_Click(sender As Object, e As EventArgs) Handles Button2.Click
-        SaveFileDialog1.Filter = "CSV|*.csv" '過濾資料類型
-
-        If SaveFileDialog1.ShowDialog() = Windows.Forms.DialogResult.OK Then
-            SaveFileDialog1.Title = "Speichern CSV-Datei"
-        End If
     End Sub
 
     '顯示儲存路徑
@@ -233,16 +231,20 @@ Public Class Form1
     '寄送Mail副程式
     Public Sub SendMail()
         Try
-            Dim myMail As New MailMessage()
-            myMail.From = New MailAddress("Tradebiz.Sensor@gmail.com", "Jasper") '發送者/ 發送人 	
-            myMail.To.Add("jaspers.dorfler@gmail.com")  '寫入收件者
+            'Dim myMail As New MailMessage()
+            'myMail.From = New MailAddress("Tradebiz.Sensor@gmail.com", "Jasper") '發送者/ 發送人 	
+            myMail.From = New MailAddress(TextBox1.Text)
+            'myMail.To.Add("jaspers.dorfler@gmail.com")  '寫入收件者
+            myMail.To.Add(TextBox6.Text)  '寫入收件者
             'myMail.Bcc.Add("456@gmail.com") '隱藏收件者 
             'myMail.CC.Add("789@gmail.com")  '寫入副本
             'myMail.SubjectEncoding = Encoding.UTF8  '主題編碼格式 
-            myMail.Subject = "The Value Over Alram!" '寫入主題 
+            'myMail.Subject = "The Value Over Alram!" '寫入主題 
+            myMail.Subject = TextBox7.Text '寫入主題
             myMail.IsBodyHtml = True    'HTML語法(true:開啟false:關閉) 	
             'myMail.BodyEncoding = Encoding.UTF8 '內文編碼格式 
-            myMail.Body = "Please Notice!" '寫入內文 
+            'myMail.Body = "Please Notice!" '寫入內文 
+            myMail.Body = TextBox8.Text '寫入內文
             'myMail.Attachments.Add(New System.Net.Mail.Attachment("C:\Files\FileA.txt"))  '附件 
 
             Dim mySmtp As New SmtpClient()  '建立SMTP連線 	
@@ -255,15 +257,6 @@ Public Class Form1
         End Try
     End Sub
 
-    '按鈕顯示選取路徑
-    Private Sub Button4_Click(sender As Object, e As EventArgs) Handles Button3.Click
-        OpenFileDialog1.Filter = "wav|*.wav" '過濾資料類型
-
-        If OpenFileDialog1.ShowDialog() = Windows.Forms.DialogResult.OK Then
-            OpenFileDialog1.Title = "Speichern WAV-Datei"
-        End If
-
-    End Sub
 
     '選取路徑顯示TextBox
     Private Sub OpenFileDialog1_FileOk(sender As Object, e As System.ComponentModel.CancelEventArgs) Handles OpenFileDialog1.FileOk
@@ -323,4 +316,72 @@ Public Class Form1
     Private Sub Timer9_Tick(sender As Object, e As EventArgs) Handles Timer9.Tick
         Label9.Text = Date.Now.ToString("dd-MM-yyyy hh:mm:ss")
     End Sub
+
+    Private Sub Timer10_Tick(sender As Object, e As EventArgs) Handles Timer10.Tick
+        Try
+            Chart1.Series("Humidity").Points.AddY(Label8.Text)
+            Chart1.Series("Temperature").Points.AddY(Label10.Text)
+            Chart1.ChartAreas("ChartArea1").AxisY.Minimum = 0
+            Chart1.ChartAreas("ChartArea1").AxisY.Maximum = 100
+            'Chart1.ChartAreas("ChartArea1").AxisY.Interval = 10
+            Chart1.ChartAreas("ChartArea1").AxisX.Title = "Data Line"
+            Chart1.ResetAutoValues()
+        Catch ex As Exception
+        End Try
+    End Sub
+
+    '上層選單開啟音效參數按鈕
+    Private Sub ToolStripButton1_Click(sender As Object, e As EventArgs) Handles ToolStripButton1.Click
+
+        OpenFileDialog1.Filter = "wav|*.wav" '過濾資料類型
+
+        If OpenFileDialog1.ShowDialog() = Windows.Forms.DialogResult.OK Then
+            OpenFileDialog1.Title = "Speichern WAV-Datei"
+        End If
+
+    End Sub
+
+    '上層選單儲存紀錄檔案按鈕
+    Private Sub ToolStripButton2_Click(sender As Object, e As EventArgs) Handles ToolStripButton2.Click
+
+        SaveFileDialog1.Filter = "CSV|*.csv"
+
+        If SaveFileDialog1.ShowDialog() = Windows.Forms.DialogResult.OK Then
+            SaveFileDialog1.Title = "Speichern CSV-Datei"
+        End If
+
+    End Sub
+
+    '顯示版本上層按鈕
+    Private Sub ToolStripButton3_Click(sender As Object, e As EventArgs) Handles ToolStripButton3.Click
+        MsgBox("Version: 1.0.0.2")
+    End Sub
+
+    '結束程式上層按鈕
+    Private Sub ToolStripButton4_Click(sender As Object, e As EventArgs) Handles ToolStripButton4.Click
+        End
+    End Sub
+
+    '儲存紀錄
+    Private Sub Button2_Click(sender As Object, e As EventArgs) Handles Button2.Click
+
+        SaveFileDialog1.Filter = "CSV|*.csv" '過濾資料類型
+
+        If SaveFileDialog1.ShowDialog() = Windows.Forms.DialogResult.OK Then
+            SaveFileDialog1.Title = "Speichern CSV-Datei"
+        End If
+
+    End Sub
+
+    '開啟音效
+    Private Sub Button3_Click(sender As Object, e As EventArgs) Handles Button3.Click
+
+        OpenFileDialog1.Filter = "wav|*.wav" '過濾資料類型
+
+        If OpenFileDialog1.ShowDialog() = Windows.Forms.DialogResult.OK Then
+            OpenFileDialog1.Title = "Speichern WAV-Datei"
+        End If
+
+    End Sub
+
 End Class
