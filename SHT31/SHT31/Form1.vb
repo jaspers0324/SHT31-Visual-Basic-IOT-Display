@@ -94,6 +94,15 @@ Public Class Form1
             Label8.BackColor = Color.White
             Label10.BackColor = Color.White
 
+            '關閉通訊後溫溼度回復0.0顯示
+            Label8.Text = "0.0"
+            Label10.Text = "0.0"
+
+            '關閉chart
+            'Chart1.Series.Clear()
+
+
+
             '音效停止撥放
             My.Computer.Audio.Stop()
         End If
@@ -319,13 +328,12 @@ Public Class Form1
 
     Private Sub Timer10_Tick(sender As Object, e As EventArgs) Handles Timer10.Tick
         Try
-            Chart1.Series("Humidity").Points.AddY(Label8.Text)
-            Chart1.Series("Temperature").Points.AddY(Label10.Text)
+            Chart1.Series("Temperature").Points.AddY(Label8.Text)
+            Chart1.Series("Humidity").Points.AddY(Label10.Text)
             Chart1.ChartAreas("ChartArea1").AxisY.Minimum = 0
             Chart1.ChartAreas("ChartArea1").AxisY.Maximum = 100
-            'Chart1.ChartAreas("ChartArea1").AxisY.Interval = 10
             Chart1.ChartAreas("ChartArea1").AxisX.Title = "Data Line"
-            Chart1.ResetAutoValues()
+
         Catch ex As Exception
         End Try
     End Sub
